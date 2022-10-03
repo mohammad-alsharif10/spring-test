@@ -1,15 +1,27 @@
 package com.example.springtest.controller;
 
+import com.example.springtest.entity.Employee;
+import com.example.springtest.service.EmployeeService;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import static org.junit.jupiter.api.Assertions.*;
+@SpringBootTest
+@ExtendWith(SpringExtension.class)
+class EmployeeIntegrationTest {
 
-class EmployeeControllerTest {
+    @Autowired
+    private EmployeeService employeeService;
+    private Employee employee;
 
     @BeforeEach
     void setUp() {
+        employee = Employee.builder().age(25).name("Mohammad").salary(2000.0).build();
     }
 
     @AfterEach
@@ -18,5 +30,7 @@ class EmployeeControllerTest {
 
     @Test
     void saveEmployee() {
+        var saveEmployee = employeeService.saveEmployee(employee);
+        Assertions.assertNotNull(saveEmployee.getId());
     }
 }
